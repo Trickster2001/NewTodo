@@ -2,6 +2,12 @@
 
 namespace MyTodoApp.Models
 {
+    public enum TodoStatus { 
+    NotStarted,
+    InProgress,
+    Completed
+    }
+
     public class Todo
     {
         public int Id { get; set; }
@@ -15,7 +21,7 @@ namespace MyTodoApp.Models
         public string? Description { get; set; }
 
         [Required]
-        public bool IsCompleted { get; set; }
+        public TodoStatus Status { get; set; } = TodoStatus.NotStarted;
 
         public int? UserId { get; set; }
 

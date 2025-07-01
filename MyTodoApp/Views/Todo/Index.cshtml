@@ -89,6 +89,21 @@
             text-decoration: underline;
         }
 
+    .inprogress {
+        background-color: #d3d3d3;
+        color: #001f3f;
+    }
+
+    .notstarted {
+        background-color: #d3d3d3;
+        color: red;
+    }
+
+    .completed {
+        background-color: #d3d3d3;
+        color: green;
+    }
+
 </style>
 
 <h1 style="text-align:center; margin-top: 1rem;">📝 My Todos</h1>
@@ -101,8 +116,8 @@
             <div class="todo-card">
                 <div class="todo-title">@todo.Title</div>
                 <div class="todo-description">@todo.Description</div>
-                <div class="badge @(todo.IsCompleted ? "completed" : "pending")">
-                    @(todo.IsCompleted ? "Completed" : "Pending")
+                <div class="badge @todo.Status.ToString().ToLower()">
+                    @todo.Status.ToString()
                 </div>
                 <div class="card-actions">
                     <a asp-action="Edit" asp-route-id="@todo.Id">✏️ Edit</a>

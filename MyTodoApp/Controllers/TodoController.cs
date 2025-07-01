@@ -57,7 +57,7 @@ namespace MyTodoApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Title, Description, IsCompleted")] Todo todo)
+        public async Task<IActionResult> Edit(int id, [Bind("Title, Description, Status")] Todo todo)
         {
             var existingTodo = _context.todos.Find(id);
             if(existingTodo == null)
@@ -66,7 +66,7 @@ namespace MyTodoApp.Controllers
             }
             existingTodo.Title = todo.Title;
             existingTodo.Description = todo.Description;
-            existingTodo.IsCompleted = todo.IsCompleted;
+            existingTodo.Status = todo.Status;
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

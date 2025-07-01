@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyTodoApp.Data;
 
@@ -10,9 +11,11 @@ using MyTodoApp.Data;
 namespace MyTodoApp.Migrations
 {
     [DbContext(typeof(MyTodoAppContext))]
-    partial class MyTodoAppContextModelSnapshot : ModelSnapshot
+    [Migration("20250701135853_AddTodoStatusEnum")]
+    partial class AddTodoStatusEnum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

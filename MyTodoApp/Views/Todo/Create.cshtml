@@ -77,6 +77,11 @@
             background-color: #1d4ed8;
         }
 
+        .form-group select {
+            border-radius: 5px;
+            padding: 2px;
+        }
+
 </style>
 
 <h1>Create a New Todo</h1>
@@ -92,9 +97,17 @@
         <input asp-for="Description" placeholder="Enter the description" />
         <span asp-validation-for="Description"></span>
     </div>
+    @* <div class="form-group"> *@
+    @*     <label asp-for="Status">Status:</label> *@
+    @*     <select asp-for="Status" asp-items="Html.GetEnumSelectList<TodoStatus>()"></select> *@
+    @* </div> *@
     <div class="form-group">
-        <label asp-for="IsCompleted">Completed</label>
-        <input asp-for="IsCompleted" type="checkbox" />
+        <label asp-for="Status">Status:</label>
+        <select name="Status" style="background-color:#d3d3d3">
+        <option value="NotStarted" style="">Not Started</option>
+        <option value="InProgress" style="">In Progress</option>
+        <option value="Completed" style="">Completed</option>
+    </select>
     </div>
     <div>
         <button type="submit" class="submit-btn">Submit</button>

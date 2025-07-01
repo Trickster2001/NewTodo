@@ -93,6 +93,21 @@
             color: #3b82f6;
             text-decoration: underline;
         }
+
+    .inprogress {
+        background-color: #d3d3d3;
+        color: #001f3f;
+    }
+
+    .notstarted {
+        background-color: #d3d3d3;
+        color: red;
+    }
+
+    .completed {
+        background-color: #d3d3d3;
+        color: green;
+    }
 </style>
 
 <div class="search-results-wrapper">
@@ -105,8 +120,8 @@
             <div class="todo-item">
                 <div class="todo-title">@todo.Title</div>
                 <div class="todo-description">@todo.Description</div>
-                <div class="todo-status @(todo.IsCompleted ? "completed" : "not-completed")">
-                    @(todo.IsCompleted ? "Completed" : "Not Completed")
+                <div class="todo-status @todo.Status.ToString().ToLower()">
+                    @todo.Status.ToString()
                 </div>
                 <div class="todo-actions">
                     <a asp-route-id="@todo.Id" asp-action="Details" asp-controller="Todo">View Details</a>
