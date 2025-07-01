@@ -1,0 +1,121 @@
+﻿@model List<MyTodoApp.Models.Todo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    body {
+        background-color: #f3f4f6; /* Light gray background */
+    }
+
+    .todo-wrapper {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .todo-card {
+        background: #ffffff; /* Solid white background */
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Darker shadow */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #d1d5db; /* Light gray border for stronger contrast */
+    }
+
+        .todo-card:hover {
+            transform: translateY(-8px); /* More pronounced lift on hover */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+        }
+
+    .todo-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #1f2937; /* Dark text color */
+        margin-bottom: 0.5rem;
+    }
+
+    .todo-description {
+        font-size: 1rem;
+        color: #4b5563; /* Lighter text color */
+        margin-bottom: 1rem;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: white;
+    }
+
+    .completed {
+        background-color: #10b981; /* Green for completed */
+    }
+
+    .pending {
+        background-color: #f59e0b; /* Orange for pending */
+    }
+
+    .card-actions {
+        margin-top: 1rem;
+    }
+
+        .card-actions a {
+            margin-right: 0.5rem;
+            text-decoration: none;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+
+            .card-actions a:hover {
+                text-decoration: underline;
+            }
+
+    .no-todos {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 1.2rem;
+        color: #6b7280;
+    }
+
+        .no-todos a {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+
+</style>
+
+<h1 style="text-align:center; margin-top: 1rem;">📝 My Todos</h1>
+
+@if (Model != null && Model.Any())
+{
+    <div class="todo-wrapper">
+        @foreach (var todo in Model)
+        {
+            <div class="todo-card">
+                <div class="todo-title">@todo.Title</div>
+                <div class="todo-description">@todo.Description</div>
+                <div class="badge @(todo.IsCompleted ? "completed" : "pending")">
+                    @(todo.IsCompleted ? "Completed" : "Pending")
+                </div>
+                <div class="card-actions">
+                    <a asp-action="Edit" asp-route-id="@todo.Id">✏️ Edit</a>
+                    <a asp-action="Delete" asp-route-id="@todo.Id">🗑️ Delete</a>
+                    <a asp-action="Details" asp-route-id="@todo.Id">📝 Details</a>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="no-todos">
+        <h3>No todos yet. <a asp-action="Create">Create one now →</a></h3>
+    </div>
+}

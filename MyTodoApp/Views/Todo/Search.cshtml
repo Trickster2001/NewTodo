@@ -1,0 +1,123 @@
+﻿@model List<MyTodoApp.Models.Todo>
+
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<style>
+    body {
+        background-color: #f3f4f6; /* Light gray background */
+    }
+
+    .search-results-wrapper {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: #ffffff;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #1f2937; /* Dark text */
+    }
+
+    .todo-item {
+        background: #ffffff;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .todo-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+    .todo-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #1f2937;
+    }
+
+    .todo-description {
+        font-size: 1.1rem;
+        color: #4b5563;
+        margin: 1rem 0;
+    }
+
+    .todo-status {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 9999px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: white;
+    }
+
+    .completed {
+        background-color: #10b981;
+    }
+
+    .not-completed {
+        background-color: #f59e0b;
+    }
+
+    .todo-actions {
+        margin-top: 1rem;
+    }
+
+        .todo-actions a {
+            margin-right: 1rem;
+            text-decoration: none;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+
+            .todo-actions a:hover {
+                text-decoration: underline;
+            }
+
+    .no-results {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 1.2rem;
+        color: #6b7280;
+    }
+
+        .no-results a {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+</style>
+
+<div class="search-results-wrapper">
+    <h1>Search Results...</h1>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        @foreach (var todo in Model)
+        {
+            <div class="todo-item">
+                <div class="todo-title">@todo.Title</div>
+                <div class="todo-description">@todo.Description</div>
+                <div class="todo-status @(todo.IsCompleted ? "completed" : "not-completed")">
+                    @(todo.IsCompleted ? "Completed" : "Not Completed")
+                </div>
+                <div class="todo-actions">
+                    <a asp-route-id="@todo.Id" asp-action="Details" asp-controller="Todo">View Details</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="no-results">
+            <p>No results found. <a asp-action="Index" asp-controller="Todo">Go back to the Todo list</a></p>
+        </div>
+    }
+</div>

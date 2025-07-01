@@ -1,0 +1,101 @@
+﻿@model MyTodoApp.Models.Todo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<style>
+    body {
+        background-color: #f3f4f6; /* Light gray background */
+    }
+
+    .details-wrapper {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: #ffffff;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #1f2937; /* Dark text */
+    }
+
+    .todo-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 1rem;
+    }
+
+    .todo-description {
+        font-size: 1.2rem;
+        color: #4b5563;
+        margin-bottom: 1.5rem;
+    }
+
+    .todo-status {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        border-radius: 9999px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: white;
+        margin-bottom: 2rem;
+    }
+
+    .completed {
+        background-color: #10b981;
+    }
+
+    .not-completed {
+        background-color: #f59e0b;
+    }
+
+    .todo-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+        .todo-actions a {
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .todo-actions .back-btn {
+            background-color: #2563eb;
+            color: #fff;
+            border: none;
+        }
+
+            .todo-actions .back-btn:hover {
+                background-color: #1d4ed8;
+            }
+</style>
+
+<div class="details-wrapper">
+    <h1>Todo Details</h1>
+
+    <div class="todo-title">
+        <strong>@Model.Title</strong>
+    </div>
+
+    <div class="todo-description">
+        @Model.Description
+    </div>
+
+    <div class="todo-status @(Model.IsCompleted ? "completed" : "not-completed")">
+        @(Model.IsCompleted ? "Completed" : "Not Completed")
+    </div>
+
+    <div class="todo-actions">
+        <a href="@Url.Action("Index", "Todo")" class="back-btn">Back to Todo List</a>
+    </div>
+</div>
