@@ -37,6 +37,8 @@
         font-weight: bold;
         color: #1f2937; /* Dark text color */
         margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-between;
     }
 
     .todo-description {
@@ -104,6 +106,27 @@
         color: green;
     }
 
+    .todo-date {
+        font-size: 0.95rem;
+        color: #1e3a8a; /* Dark Blue */
+        font-weight: 500;
+        margin-top: 5px;
+        padding: 4px 8px;
+        background-color: #e0e7ff; /* Light Indigo background */
+        border-left: 4px solid #1e3a8a;
+        border-radius: 4px;
+        display: inline-block;
+        /* margin-right: 0; */
+        /* margin-left: 20px */
+    }
+
+    .overdue {
+        background-color: #fee2e2; /* Light red */
+        border-left-color: #b91c1c; /* Dark red */
+        color: #b91c1c;
+    }
+
+
 </style>
 
 <h1 style="text-align:center; margin-top: 1rem;">📝 My Todos</h1>
@@ -114,7 +137,7 @@
         @foreach (var todo in Model)
         {
             <div class="todo-card">
-                <div class="todo-title">@todo.Title</div>
+                <div class="todo-title">@todo.Title <span class="todo-date @(todo.DueDate < DateOnly.FromDateTime(DateTime.Today) ? "overdue" : "")"> @todo.DueDate.ToString("dd-MM-yy")</span></div>
                 <div class="todo-description">@todo.Description</div>
                 <div class="badge @todo.Status.ToString().ToLower()">
                     @todo.Status.ToString()
@@ -124,6 +147,9 @@
                     <a asp-action="Delete" asp-route-id="@todo.Id">🗑️ Delete</a>
                     <a asp-action="Details" asp-route-id="@todo.Id">📝 Details</a>
                 </div>
+                @* <div class="todo-date"> *@
+                @*     @todo.DueDate *@
+                @* </div> *@
             </div>
         }
     </div>

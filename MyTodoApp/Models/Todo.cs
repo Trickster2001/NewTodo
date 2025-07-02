@@ -23,6 +23,8 @@ namespace MyTodoApp.Models
         [Required]
         public TodoStatus Status { get; set; } = TodoStatus.NotStarted;
 
+        public DateOnly DueDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+
         public int? UserId { get; set; }
 
         public User? User { get; set; }

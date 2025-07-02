@@ -31,7 +31,7 @@ namespace MyTodoApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Title, Description, IsCompleted")] Todo todo)
+        public async Task<IActionResult> Create([Bind("Title, Description, IsCompleted, DueDate")] Todo todo)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             if (ModelState.IsValid)

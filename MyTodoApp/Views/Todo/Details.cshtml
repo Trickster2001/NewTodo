@@ -29,6 +29,8 @@
         font-weight: bold;
         color: #1f2937;
         margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
     }
 
     .todo-description {
@@ -93,6 +95,26 @@
         background-color: #d3d3d3;
         color: green;
     }
+
+    .todo-date {
+        font-size: 0.95rem;
+        color: #1e3a8a; /* Dark Blue */
+        font-weight: 500;
+        margin-top: 5px;
+        padding: 4px 8px;
+        background-color: #e0e7ff; /* Light Indigo background */
+        border-left: 4px solid #1e3a8a;
+        border-radius: 4px;
+        display: inline-block;
+        /* margin-right: 0; */
+        /* margin-left: 20px */
+    }
+
+    .overdue {
+        background-color: #fee2e2; /* Light red */
+        border-left-color: #b91c1c; /* Dark red */
+        color: #b91c1c;
+    }
 </style>
 
 <div class="details-wrapper">
@@ -100,6 +122,7 @@
 
     <div class="todo-title">
         <strong>@Model.Title</strong>
+        <span class="todo-date @(Model.DueDate < DateOnly.FromDateTime(DateTime.Now) ? "overdue" : "")">@Model.DueDate</span>
     </div>
 
     <div class="todo-description">
