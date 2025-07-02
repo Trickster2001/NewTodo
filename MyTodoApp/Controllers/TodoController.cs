@@ -25,6 +25,28 @@ namespace MyTodoApp.Controllers
         }
 
         [HttpGet]
+        public IActionResult Filter(TodoStatus? status)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "User");
+
+            var todoList = _context.todos.Where(t => t.UserId == userId);
+
+            if (status.HasValue)
+            {
+                Console.WriteLine(status);
+                //if (status == "-- All --")
+                //{
+                //    Console.WriteLine("All todos");
+                //}
+                todoList = todoList.Where(t => t.Status == status.Value);
+            }
+
+            return View("Index", todoList.ToList());
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
             return View();

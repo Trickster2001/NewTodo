@@ -1,4 +1,6 @@
-﻿@model List<MyTodoApp.Models.Todo>
+﻿@using Microsoft.Extensions.Primitives
+@model List<MyTodoApp.Models.Todo>
+
 
 @{
     ViewData["Title"] = "Index";
@@ -126,6 +128,16 @@
         color: #b91c1c;
     }
 
+    .status-check {
+        /* background-color: red; */
+        margin-top: 15px;
+        display: flex;
+        justify-content: end;
+        color: #1e3a8a;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
 
 </style>
 
@@ -133,6 +145,18 @@
 
 @if (Model != null && Model.Any())
 {
+    <div class="status-check">
+    <form asp-action="Filter" asp-controller="Todo" method="get" class="filter-form">
+    <label for="status">Filter by Status:</label>
+        <select name="status" id="status" onchange="this.form.submit()">
+            <option value="" selected="@(StringValues.IsNullOrEmpty(Context.Request.Query["status"]) ? "selected" : "")">-- All --</option>
+            <option value="NotStarted" selected="@("NotStarted" == Context.Request.Query["status"])">Not Started</option>
+            <option value="InProgress" selected="@("InProgress" == Context.Request.Query["status"])">In Progress</option>
+            <option value="Completed" selected="@("Completed" == Context.Request.Query["status"])">Completed</option>
+        </select>
+    </form>
+    </div>
+
     <div class="todo-wrapper">
         @foreach (var todo in Model)
         {
@@ -147,9 +171,6 @@
                     <a asp-action="Delete" asp-route-id="@todo.Id">🗑️ Delete</a>
                     <a asp-action="Details" asp-route-id="@todo.Id">📝 Details</a>
                 </div>
-                @* <div class="todo-date"> *@
-                @*     @todo.DueDate *@
-                @* </div> *@
             </div>
         }
     </div>
@@ -157,6 +178,20 @@
 else
 {
     <div class="no-todos">
-        <h3>No todos yet. <a asp-action="Create">Create one now →</a></h3>
+        <div class="status-check">
+        <form asp-action="Filter" asp-controller="Todo" method="get" class="filter-form">
+            <label for="status">Filter by Status:</label>
+            <select name="status" id="status" onchange="this.form.submit()">
+                <option value="" selected="@(StringValues.IsNullOrEmpty(Context.Request.Query["status"]) ? "selected" : "")">-- All --</option>
+
+                @* <option value="">-- All --</option> *@
+                <option value="NotStarted" selected="@("NotStarted" == Context.Request.Query["status"])">Not Started</option>
+                <option value="InProgress" selected="@("InProgress" == Context.Request.Query["status"])">In Progress</option>
+                <option value="Completed" selected="@("completed" == Context.Request.Query["status"])">Completed</option>
+            </select>
+
+        </form>
+        </div>
+        <h3 style="margin-top: 50px;">No <span style="color: red;">@(Context.Request.Query["status"])</span> todos yet. <a asp-action="Create">Create one now →</a></h3>
     </div>
 }
