@@ -1,8 +1,104 @@
-﻿
+﻿@model IEnumerable<MyTodoApp.Models.User>
+@* @model List<MyTodoApp.Models.User> *@
+
 @{
 	ViewData["Title"] = "Admin Index";
 }
 
-<div>
-	Hello World!
+<style>
+    .container {
+        padding: 20px;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    select {
+        padding: 5px 10px;
+        font-size: 1rem;
+        border-radius: 5px;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        font-size: 1.2rem;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .list-group-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .badge {
+        background-color: #17a2b8;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 5px;
+    }
+
+</style>
+
+<div class="container my-4">
+    <h2 class="mb-4">Hello World!</h2>
+
+    <form asp-action="AdminIndex" method="get" class="mb-4">
+        <div class="form-group d-flex align-items-center gap-2">
+            <label for="userId" class="mb-0 fw-bold">Filter by User:</label>
+            <select name="userId" id="userId" class="form-select w-auto" onchange="this.form.submit()">
+                <option value="" selected="@(string.IsNullOrEmpty(Context.Request.Query["userId"]) ? "selected" : "")">
+                    -- All Users --
+                </option>
+                @foreach (var user in ViewBag.Users as List<User>)
+                {
+                    <option value="@user.UserId" selected="@(Context.Request.Query["userId"] == user.UserId.ToString() ? "selected" : null)">
+                        @user.Username
+                    </option>
+                }
+            </select>
+        </div>
+    </form>
+
+    @foreach (var user in Model)
+    {
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">@user.Username</h5>
+            </div>
+            <div class="card-body">
+                @if (user.Todos != null && user.Todos.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var todo in user.Todos)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>@todo.Title</strong> - @todo.Status
+                                </span>
+                                <span class="badge bg-info text-dark">Due: @todo.DueDate.ToShortDateString()</span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">No todos yet</p>
+                }
+            </div>
+        </div>
+    }
 </div>

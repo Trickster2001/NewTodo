@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyTodoApp.Data;
 using MyTodoApp.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace MyTodoApp.Controllers
 {
@@ -53,7 +55,7 @@ namespace MyTodoApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Title, Description, IsCompleted, DueDate")] Todo todo)
+        public async Task<IActionResult> Create([Bind("Title, Description, Status, DueDate")] Todo todo)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             if (ModelState.IsValid)
@@ -132,9 +134,46 @@ namespace MyTodoApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult AdminIndex()
+        public IActionResult AdminIndex(int? userId)
         {
+            var users = _context.users.Where(u => !u.IsAdmin).ToList();
+
+            ViewBag.Users = users;
+
+            
+
+            if(userId.HasValue)
+            {
+                var eachUserTodos = _context.users.Where(u => u.UserId == userId.Value).Include(u => u.Todos).ToList();
+
+                return View(eachUserTodos);
+            } else
+            {
+                var userTodos = _context.users.Where(u => !u.IsAdmin).Include(u => u.Todos).ToList();
+                return View(userTodos);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Assign()
+        {
+            var users = _context.users.Where(u => !u.IsAdmin).ToList();
+            ViewBag.Users = users;
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Assign([Bind("Title, Description, DueDate, UserId")] Todo todo)
+        {
+            if(ModelState.IsValid)
+            {
+                _context.todos.Add(todo);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("AdminIndex");
+            }
+
+            ViewBag.Users = _context.users.Where(u => !u.IsAdmin).ToList();
+            return View(todo);
         }
     }
 }

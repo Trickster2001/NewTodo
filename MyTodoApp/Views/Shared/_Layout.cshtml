@@ -60,25 +60,30 @@
                         var userId = Context.Session.GetInt32("UserId");
                         var username = Context.Session.GetString("username");
                         var admin = Context.Session.GetInt32("admin");
+                        Console.WriteLine(username);
                     }
 
                     @if (admin == 1)
                     {
-                        <a asp-controller="Todo" asp-action="AdminIndex">AdminHome</a>
-                        <a asp-controller="Todo" asp-action="Create">Create</a>
+                        <a asp-controller="Todo" asp-action="AdminIndex">Dashboard</a>
+                        <a asp-controller="Todo" asp-action="Assign">Assign</a>
                     }
                     else
                     {
-                    <a asp-controller="Todo" asp-action="Index">MyHome</a>
-                    <a asp-controller="Todo" asp-action="Create">Create</a>
+                        <a asp-controller="Todo" asp-action="Index">MyHome</a>
+                        <a asp-controller="Todo" asp-action="Create">Create</a>
                     }
 
                     @if (userId != null)
                     {
-                        <form class="custom-search d-flex align-items-center" asp-action="Search" asp-controller="Todo" method="post">
-                            <input name="query" type="text" placeholder="Search Todos..." />
-                            <button type="submit">🔍</button>
-                        </form>
+                        if (admin != 1)
+                        {
+                            <form class="custom-search d-flex align-items-center" asp-action="Search" asp-controller="Todo" method="post">
+                                <input name="query" type="text" placeholder="Search Todos..." />
+                                <button type="submit">🔍</button>
+                            </form>
+                        }
+                        
 
                         <a asp-controller="User" asp-action="Logout">Logout</a>
                     }
