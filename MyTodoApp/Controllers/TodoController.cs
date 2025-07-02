@@ -130,5 +130,11 @@ namespace MyTodoApp.Controllers
             var todo = _context.todos.Find(id);
             return View(todo);
         }
+
+        [HttpGet]
+        public IActionResult AdminIndex()
+        {
+            return View();
+        }
     }
 }

@@ -16,5 +16,7 @@ namespace MyTodoApp.Models
         public string Password { get; set; }
 
         public List<Todo>? Todos { get; set; }
+
+        public bool IsAdmin { get; set; } = false;
     }
 }

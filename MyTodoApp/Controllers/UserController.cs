@@ -44,8 +44,16 @@ namespace MyTodoApp.Controllers
         {
             var existingUser = _context.users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
 
-            Console.WriteLine("Existing user id is " + existingUser.UserId);
-            Console.WriteLine("user id is" + user.UserId);
+            //Console.WriteLine("Existing user id is " + existingUser.UserId);
+            //Console.WriteLine("user id is" + user.UserId);
+            Console.WriteLine($"Admin: {existingUser.IsAdmin}");
+
+            if (existingUser.IsAdmin)
+            {
+                HttpContext.Session.SetInt32("UserId", existingUser.UserId);
+                HttpContext.Session.SetInt32("admin", existingUser.IsAdmin ? 1 : 0);
+                return RedirectToAction("AdminIndex", "Todo");
+            }
 
             if(existingUser != null)
             {

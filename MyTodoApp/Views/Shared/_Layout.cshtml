@@ -12,56 +12,65 @@
     <header>
         <style>
             .custom-navbar {
-                background: linear-gradient(90deg, #4f46e5, #3b82f6);
-                padding: 1rem;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: linear-gradient(90deg, #4f46e5, #3b82f6);
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             }
 
-                .custom-navbar a {
-                    color: #ffffff;
-                    text-decoration: none;
-                    margin-right: 1.2rem;
-                    font-weight: 500;
-                    transition: opacity 0.3s ease;
-                }
+            .custom-navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-right: 1.2rem;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+            }
 
-                    .custom-navbar a:hover {
-                        opacity: 0.8;
-                    }
+            .custom-navbar a:hover {
+            opacity: 0.8;
+            }
 
             .custom-search input[type="text"] {
-                padding: 0.4rem 0.8rem;
-                border: none;
-                border-radius: 20px;
-                outline: none;
-                margin-right: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            margin-right: 0.5rem;
             }
 
             .custom-search button {
-                background-color: #2563eb;
-                color: #fff;
-                padding: 0.4rem 0.9rem;
-                border: none;
-                border-radius: 20px;
-                cursor: pointer;
-                transition: background 0.3s ease;
+            background-color: #2563eb;
+            color: #fff;
+            padding: 0.4rem 0.9rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
             }
 
-                .custom-search button:hover {
-                    background-color: #1d4ed8;
-                }
+            .custom-search button:hover {
+            background-color: #1d4ed8;
+            }
         </style>
 
         <nav class="custom-navbar">
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
                 <a asp-area="" asp-controller="Todo" asp-action="Index" class="navbar-brand">📋 MyTodoApp</a>
                 <div class="d-flex align-items-center flex-wrap">
-                    <a asp-controller="Todo" asp-action="Index">MyHome</a>
-                    <a asp-controller="Todo" asp-action="Create">Create</a>
-
                     @{
                         var userId = Context.Session.GetInt32("UserId");
                         var username = Context.Session.GetString("username");
+                        var admin = Context.Session.GetInt32("admin");
+                    }
+
+                    @if (admin == 1)
+                    {
+                        <a asp-controller="Todo" asp-action="AdminIndex">AdminHome</a>
+                        <a asp-controller="Todo" asp-action="Create">Create</a>
+                    }
+                    else
+                    {
+                    <a asp-controller="Todo" asp-action="Index">MyHome</a>
+                    <a asp-controller="Todo" asp-action="Create">Create</a>
                     }
 
                     @if (userId != null)
